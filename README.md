@@ -1,105 +1,85 @@
-# TrustLens — AI-Based Community Trust Analyzer
-
-TrustLens is a prototype system designed to detect scams, bot activity, and malicious behavior in online communities such as Telegram, WhatsApp, and Instagram.
-
-It combines AI-based analysis with real-time backend systems to generate a trust score for communities, helping users make informed decisions before engaging.
-
-
-## Problem
-
-Online communities often lack transparency and are vulnerable to:
-
-- Scam messages
-- Bot-driven spam
-- Fake promotions
-- Misleading groups
-
-Users currently have no reliable way to assess whether a community is trustworthy.
-
-
-## Solution
-
-TrustLens provides an automated trust scoring system that:
-
-- Analyzes content using AI
-- Tracks spam reports
-- Assigns a trust score
-- Categorizes communities into risk levels
-
-This enables users to quickly identify whether a community is safe or potentially harmful.
-
-
-## Features
-
-- AI-based scam detection
-- Trust score calculation
-- Spam report tracking
-- Risk classification (Low / Medium / High)
-- Real-time updates
-- Simple dashboard interface
-
-
-## Tech Stack
-
-- Frontend: React (generated via AI-assisted development)
-- Backend: Supabase (PostgreSQL, Auth, Realtime)
-- AI: OpenAI API for text analysis
-
-
-## System Flow
-
-User Input (message / community link)  
-→ AI analysis (spam detection)  
-→ Store result in database  
-→ Update spam count  
-→ Calculate trust score  
-→ Return risk level  
-
-
-## Architecture Overview
-
-TrustLens uses a hybrid architecture:
-
-- Supabase for data storage and real-time updates
-- AI for intelligent analysis
-- Frontend for interaction and visualization
-
-This allows fast processing while keeping the system scalable.
-
-
-## Note on Development
-
-This project was developed during a hackathon using AI-assisted development tools to accelerate prototyping.
-
-The focus was on:
-
-- System design
-- Data flow
-- Integration of AI and backend services
-
-Future iterations will include a fully structured backend and production-level implementation.
-
-
-## Limitations
-
-- AI accuracy depends on input quality
-- No advanced moderation system yet
-- Limited scalability optimizations
-- Prototype-level error handling
-
-
-## Future Improvements
-
-- Dedicated backend service (Node.js / APIs)
-- Improved trust scoring algorithms
-- Browser extension for real-time scanning
-- Community verification mechanisms
-- Enhanced AI models for better detection
-
-
-## Setup Instructions
-
-1. Clone the repository
-
 # TrustLens
 TrustLens is an AI-powered trust verification system that analyzes online communities for scams, bots, and suspicious behavior using real-time data and automated intelligence.
+
+# TrustLens – Community Credibility Layer
+AI + Web3 app to verify Telegram, Discord, WhatsApp & Instagram groups for scams  
+Built by Team Nexus for #LNMHacks 2026
+
+## 🚀 Quick Demo Links
+- Live Preview (NoahAI generated): [add link if you deployed to Vercel/Netlify]
+- Supabase Project Dashboard: (private – screenshots below)
+- $TLENS Token on Solana (CyreneAI launch): [paste solscan.io link or tx]
+- Monad Testnet Contract: [paste contract address or explorer link if deployed]
+
+## What TrustLens Does
+Paste a group URL → AI analyzes messages for bots/scams → gives trust score (0–100) + spam tier warning:  
+- <20 reports: Low risk (mild caution)  
+- 20–50 reports: Medium risk (clear alert)  
+- >50 reports: High spam risk (red flag)  
+
+Data stored in Supabase + immutable history on Monad blockchain.  
+$TLENS token rewards reporters + enables governance.
+
+## Tech Stack
+- Frontend: React/Vite + Tailwind (generated via NoahAI)
+- Backend: Supabase (database, real-time, auth, storage)
+- AI: OpenAI API
+- Blockchain: Monad testnet (immutability + NFT badges)
+- Token: $TLENS on Solana via CyreneAI
+- Wallets: MetaMask (Monad) + Phantom (Solana)
+
+## Supabase Backend – What We Did (Detailed)
+We used Supabase as our fast, free backend-as-a-service.
+
+### 1. Project Creation
+- Created project: `trustlens-global`
+- Region: Asia (low latency for India)
+
+### 2. Database Table: community_profiles
+Created in Table Editor with these columns:
+
+| Column                  | Type          | Description / Purpose                              | Default     |
+|-------------------------|---------------|-----------------------------------------------------|-------------|
+| id                      | uuid          | Auto-generated primary key                          | auto        |
+| community_url           | text          | Unique URL of the group (e.g. t.me/group)           | —           |
+| trust_score             | integer       | AI-generated score 0–100                            | —           |
+| analysis_json           | jsonb         | Full AI output (flags, bot_ratio, etc.)             | —           |
+| spam_report_count       | integer       | Cumulative spam flags (user + AI)                   | 0           |
+| spam_tier               | text          | Calculated: 'low' (<20), 'medium' (20–50), 'high' (>50) | —       |
+| blockchain_tx_hash      | text          | Monad tx hash for immutability                      | —           |
+| verified_admin_wallet   | text          | Wallet address of verified admin                    | —           |
+| created_at              | timestamptz   | Auto timestamp                                      | now()       |
+
+### 3. Real-Time Enabled
+- Went to Database → Publications
+- Added `community_profiles` to `supabase_realtime` publication
+- Result: New reports or count updates appear live in dashboard without refresh
+
+### 4. Authentication
+- Enabled Email provider (low password requirements for hack speed)
+- Checked Web3 Wallet beta (if available) for MetaMask/Phantom sign-in
+
+### 5. Storage
+- Created public bucket: `community_screenshots`
+- Used for uploading proof images (URLs saved in analysis_json)
+
+### 6. Connection to Frontend
+- Used `@supabase/supabase-js` client
+- Initialized with project URL + anon key (pasted into NoahAI prompt)
+- Operations: insert/update spam counts, subscribe to changes for real-time UI
+
+### Why Supabase?
+- Free tier perfect for hackathon (500MB storage, unlimited auth)
+- Real-time built-in (no extra sockets/server)
+- Postgres = fast structured queries for spam counts/tiers
+- Easy auth & storage — no custom backend needed
+
+## Next Steps (Post-Hackathon Ideas)
+- Deploy frontend to Vercel
+- Move to Monad mainnet
+- Add $TLENS staking for extra earnings
+- Improve AI with more languages
+
+Team Nexus  
+@komalgaur24 & team  
+#LNMHacks #Web3 #AI #Supabase #Hackathon
